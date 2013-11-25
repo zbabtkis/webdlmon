@@ -1,0 +1,14 @@
+.ui.grid>.row {
+	margin-top: 0;
+	padding-top: 0;
+}
+.ui.grid .column {
+	padding: 5px !important;
+}
+.ui.segment {
+	padding: 4px;
+	font-size: 11px;
+}
+p {
+	margin: 0;
+}u

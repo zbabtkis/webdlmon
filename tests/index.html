@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+
+<html lan='en'>
+<head>
+	<meta charset='utf-8' />
+	<meta name='viewport' content='width=device-width' />
+
+	<title>WebDLMon | NEES@UCSB</title>
+
+	<!-- CSS Libraries -->
+	<link rel='stylesheet' href='../bower_components/semantic/build/packaged/css/semantic.min.css' />
+	<link rel='stylesheet' href='../bower_components/mocha/mocha.css' />
+
+
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
+
+	<!-- Main stylesheet -->
+	<link rel='stylesheet' href='../css/main.css' />
+	<link rel='stylesheet' href='../css/paul.css' />
+</head>
+<body>
+	<div id='app' class='container'>
+		<header>
+
+			<a href='/tests'><h2 id='page-title'>web<span class='offcolor'>dl</span>mon <span class='offcolor'>Unit Tests</span></h2></a>
+		
+		</header>
+
+		<main id='content'>
+
+			<div id="mocha"></div>
+
+			<div id='region-menu' class='ui secondary pointing menu'>
+				<a class='item' data-action='overview'>
+					<i class='block layout icon'></i> Overview
+					<div class='floating circular ui red label'></div>
+				</a>
+				<a class='item' data-action='details'>
+					<i class='grid layout icon'></i> Details
+				</a>
+			</div>
+
+			<div id='message-region'></div>
+			<div id='region-data'></div>
+
+		</main>
+	</div>
+
+	<div class='ui modal'>
+		<!-- Display charts and detailed data here -->
+	</div>
+
+	<div id='spinner' class='hidden'>
+		<!-- Display spin.js spinner here -->
+	</div>
+	<script src='../bower_components/chai/chai.js'></script>
+	<script src='../bower_components/sinon-chai/lib/sinon-chai.js'></script>
+	<script src='http://sinonjs.org/releases/sinon-1.7.3.js'></script>
+	<script src='../bower_components/mocha/mocha.js'></script>
+	<script>
+		mocha.setup('bdd');
+		var assert = chai.assert
+		  , expect = chai.expect;
+	</script>
+	<script src='../bower_components/requirejs/require.js' data-main='main'></script>
+</body>
+</html>

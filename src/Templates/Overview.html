@@ -1,0 +1,38 @@
+<article class='ui three column celled grid'>
+	<div class='row'>
+		<section class='column'>
+			<div data-content='Digitizer temperature' data-field='dt' class='ui <%= getColor("dt") %> inverted segment'>
+				<%= getTemp() %>
+			</div>
+		</section>
+		<section class='column'>
+			<div data-content='Digitizer voltage' data-field='dv' class='ui <%= getColor("dv") %> inverted segment'>
+				<%= getVolt() %>
+			</div>
+		</section>
+		<section class='column'>
+			<div data-content='Digitizer current' data-field='da' class='ui <%= getColor("da") %> inverted segment'>
+				<%= getAmp() %>
+			</div>
+		</section>
+	</div>
+	<div class='three column row'>
+		<section class='ui three column wide <%= ok ? "green" : "red" %> button'>
+			<div title='<%= diff !== "0" ? diff + " ago" : "recently" %>' data-content='id' class='info ui center aligned header'>
+				<%= id %>
+			</div>
+		</section>
+	</div>
+	<div class='row'>
+		<section class='column'>
+			<div data-content='Data latency' data-field='dlt' class='ui <%= getColor("dlt") %> inverted segment'>
+				<%= seconds(dlt) %>
+			</div>
+		</section>
+		<section class='column'>
+			<div data-content='Clock quality' data-field='lcq' class='ui <%= getColor("lcq") %> inverted segment'>
+				<%= percent(lcq) %>
+			</div>
+		</section>
+	</div>
+</article>

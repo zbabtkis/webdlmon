@@ -1,0 +1,27 @@
+<td title='Last heard: <%= diff !== "0" ? diff : "recently" %> ago' class='<%= ok ? "" : "negative" %> info'><%= id %></td>
+<td data-field='dt' class='<%= getColor("dt") %>'><%= getTemp() %></td>
+<td data-field='dv' class='<%= getColor("dv") %>'><%= getVolt() %></td>
+<td data-field='da' class='<%= getColor("da") %>'><%= getAmp() %></td>
+<td data-field='dlt' class='<%= getColor("dlt") %>'><%= seconds(dlt) %></td>
+<td data-field='lcq' class='<%= getColor("lcq") %>'><%= percent(lcq) %></td>
+<td class='<%= getColor("dr") %>'><%= bigNumber(dr) %></td>
+<td class='<%= getColor("dv") %>'><%= bigNumber(br24) %></td>
+<td class='<%= getColor("rtm") %>'><%= uptime(rtm) %></td>
+<td class='<%= getColor("gp24") %>'><%= seconds(gp24) %></td>
+<td class='<%= getColor("gp1") %>'><%= seconds(gp1) %></td>
+<td class='<%= getColor("nr24") %>'><%= round(nr24) %></td>
+<td class='<%= getColor("pkse") %>'><%= seconds(pkse) %></td>
+<td class='<%= getColor("tput") %>'><%= fixed(tput, 2) %></td>
+<td class='<%= getColor("ce") %>'><%= percent(ce) %></td>
+<td class='<%= getColor("pb") %>'><%= percent(pb) %></td>
+<td class='<%= getColor("nl24") %>'><%= nl24 %></td>
+<td class='<%= getColor("np24") %>'><%= np24 %></td>
+<td class='<%= getColor("ni24") %>'><%= ni24 %></td>
+<td class='<%= getColor("bw24") %>'><%= bigNumber(bw24) %></td>
+<td class='<%= getColor("meme") %>'><%= meme %></td>
+<td class='<%= getColor("clt") %>'><%= seconds(clt) %></td>
+<td class='<%= getColor("gps") %>'><%= gps %></td>
+<td class='<%= getColor("cld") %>'><%= getCld() %></td>
+<td class='<%= getColor("gpss") %>'><%= gpss %></td>
+<td class='<%= getColor("clq") %>'><%= clq %></td>
+<td class='<%= getColor("elev") %>'><%= getElevation() %></td>
