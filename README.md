@@ -15,6 +15,10 @@ Getting this to work with your back end will require some tweaking, but at minim
 
 If you would like to compile the javascript source files, you'll need to install requirejs globally on your system with NPM (part of node.js). This is only necessary if you want to optimize performance by getting rid of extra http requests.
 
+Example
+-------
+To see this app in action, visit http://webdlmon.nees.ucsb.edu:8080.
+
 Contributing
 ------------
 Go ahead and fork this project so we can make this application more robust and adaptable together!
