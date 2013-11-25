@@ -17,7 +17,7 @@ If you would like to compile the javascript source files, you'll need to install
 
 Example
 -------
-To see this app in action, visit http://webdlmon.nees.ucsb.edu:8080.
+To see this app in action, visit http://webdlmon.nees.ucsb.edu:8888.
 
 Contributing
 ------------
