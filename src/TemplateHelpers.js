@@ -90,6 +90,9 @@ define(['Settings', 'WarnCounter'], function(settings, WarnCounter) {
 			}
 
 			return color;
+		},
+		notLatent: function(lat) {
+			return isNaN(lat) || lat < settings.MAX_DATA_LATENCY;	
 		}
 	};
 })

@@ -17,7 +17,7 @@
 		</section>
 	</div>
 	<div class='three column row'>
-		<section class='ui three column wide <%= ok ? "green" : "red" %> button'>
+		<section class='ui three column wide <%= ok && notLatent(dlt) ? "green" : "red" %> button'>
 			<div title='<%= diff !== "0" ? diff + " ago" : "recently" %>' data-content='id' class='info ui center aligned header'>
 				<%= id %>
 			</div>

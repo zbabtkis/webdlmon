@@ -58,7 +58,9 @@ define(function() {
 		OK:      'positive green',
 		WARN:    'warning purple',
 		DANGER:  'negative red'
-	}
+	};
+
+	settings.MAX_DATA_LATENCY = 300;
 
 	return settings;
 })
