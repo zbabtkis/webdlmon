@@ -17,6 +17,16 @@ define(function() {
 	settings.RRD_ERROR   = "No data could be fetched from the RRD";
 	settings.ENOFILE     = "file not available";
 
+	
+	settings.RRD_OK_MSG  = "<i class='large thumbs up icon'></i>"
+						 + "And we're back!"; 
+	settings.RRD_ERR_MSG = "<i class='large attention icon'></i>"
+						 + "This data is old because dlmon2json has stopped!"; 
+
+
+	settings.GRAPH_START = new Date() - 84000 * 7;
+	settings.GRAPH_END   = new Date();
+
 	/**
 	 * Preferences for ranges of acceptable data logger behavior
 	 *   - Anything outside of MIN and MAX will not be green.

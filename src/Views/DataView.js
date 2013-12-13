@@ -8,14 +8,16 @@ define(['backbone'
 	  , 'Settings'
 	  , 'Views/Messages'
 	  , 'Views/GraphView'
+	  , 'Views/InfoGraph'
 	  , 'TemplateHelpers'
 	  , 'tpl!Templates/TableView.html'
 	  , 'tpl!Templates/TableRow.html'
-	  , 'tpl!Templates/MoreInfo.html'
 	  , 'semantic'
 	  , 'marionette'],
 
-function(Backbone, $, _, _config, Messages, Graph, TemplateHelpers, TableTemplate, RowTemplate, InfoTemplate) {
+function (Backbone, $, _, config, Messages, Graph, InfoGraph, TemplateHelpers, TableTemplate, RowTemplate) {
+	"use strict";
+
 	var DataView = Backbone.Marionette.ItemView.extend({
 		// For formatting data logger info strings.
 		templateHelpers: TemplateHelpers,
@@ -38,68 +40,43 @@ function(Backbone, $, _, _config, Messages, Graph, TemplateHelpers, TableTemplat
 		graph: function(e) {
 			var field  = $(e.currentTarget).data('field')
 			  , id     = this.model.get('id')
-			  , graph  = new Graph({id: id, field: field})
-			  , _this  = this;
+			  , graph  = new Graph({field: field, id: id});
 
-			this.vent.trigger('display:spinner');
+			var addGraphBehavior = function(data) {
+				graph.chart.addSeries(data);
+				graph.chart.xAxis[0].setExtremes(config.GRAPH_START, config.GRAPH_END); 
+				graph.chart.hideLoading();
+			};
 
-			/**
-			 * Give error if RRD request returns no data points.
-			 */
-			var addLine = _.bind(function(data) {
-				if(data.data && data.data.length) {
-					_this.vent.trigger('display:modal', graph.render(data).$el);
-				} else {
-					_this.error();
-				}
-			}, this);
+			this.vent.trigger("FieldDataFetchBehavior", id, field, addGraphBehavior);
+			this.vent.trigger("display:modal", graph);
 
-			$.getJSON(_config.APP_URL + '/rrd/' + id + '/' + field, addLine);
+			graph.chart.showLoading();
 		},
 
 		info: function() {
-			var html   = InfoTemplate(this.model.toJSON())
-			  , id     = this.model.get('id')
-			  , fields = []
-			  , fail   = setTimeout(this.error, _config.RRD_TIMEOUT); // Since we are making three AJAX calls, we need to make sure client isn't left hanging if one of them fails.
+			var id     = this.model.get('id')
+			  , graph  = new Graph({field: 'da, dt, da', id: id});
 
-			this.vent.trigger('display:modal', html);
-			this.vent.trigger('display:spinner', '.graph');
+			var addGraphBehavior = function addInfoGraphBehavior(data) {
+				graph.chart.addSeries(data);
+			    graph.chart.xAxis[0].setExtremes(config.GRAPH_START, config.GRAPH_END);
+				graph.chart.hideLoading();
+			};
 
-			/** 
-			 * When ajax request for RRD data completes, it is added to the
-			 * graph using this functions
-			 */
-			var addLine = _.bind(function(data) {
-				var content;
+			this.vent.trigger('InfoDataFetchBehavior', id, addGraphBehavior); 
+			this.vent.trigger('display:modal', new InfoGraph({
+				model: this.model,
+				graph: graph
+			}));
 
-				fields.push(data);
-
-				// Graph when all 3 requests have been made.
-				if(fields.length === 3) {
-					// Graph fileds that have returned valid data objects (i.e. not ENOFILE);
-					content = new Graph({field: 'dv, dt, da', id: id}).render(_.without(fields, _config.ENOFILE)).$el;
-
-					// Turn off error callback.
-					clearTimeout(fail);
-
-					this.vent.trigger('display:modal:inject', {
-						selector: '.graph',
-						content: content
-					});
-				}
-			}, this);
-
-			// Request RRD data for three fields from the RRD.
-			$.getJSON(_config.APP_URL + '/rrd/' + id + '/' + 'dv', addLine);
-			$.getJSON(_config.APP_URL + '/rrd/' + id + '/' + 'dt', addLine);
-			$.getJSON(_config.APP_URL + '/rrd/' + id + '/' + 'da', addLine);
+			graph.chart.showLoading();
 		},
 
 		error: function() {
 			this.vent.trigger('hide:spinner');
 			this.vent.trigger('flash', {
-				message: _config.RRD_ERROR,
+				message: config.RRD_ERROR,
 				type: "error"
 			});
 		},
