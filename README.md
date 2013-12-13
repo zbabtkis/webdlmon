@@ -80,4 +80,4 @@ To see this app in action, visit http://webdlmon.nees.ucsb.edu:8888.
 
 Contributing
 ------------
-Go ahead and fork this project so we can make this application more robust and adaptable together!
+Fork and submit a pull request if you have any contributions that will make this application more useful and flexible for everyone.
