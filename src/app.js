@@ -31,6 +31,7 @@ function(Backbone, Collection, TableView, Modal, Menu, Router, Message, Overview
 		App.modalRegion.$el.modal('show');
 	});
 
+	// App Data Handlers require vent to communicate with app.
 	AppData(App.vent);
 
 	// Message flasher.
@@ -82,8 +83,6 @@ function(Backbone, Collection, TableView, Modal, Menu, Router, Message, Overview
 				appMenu.select('details');
 			}
 		});
-
-		window.collection = appCollection;
 	});
 
 	/** 
