@@ -27,8 +27,8 @@ function (Backbone, $, _, config, Messages, Graph, InfoGraph, TemplateHelpers, T
 		},
 
 		events: {
-			'click .info': 'info',
-			'click [data-field]': 'graph'
+			'click .info': 'graphInfo',
+			'click [data-field]': 'graphSingle'
 		},
 
 		initialize: function() {
@@ -37,39 +37,39 @@ function (Backbone, $, _, config, Messages, Graph, InfoGraph, TemplateHelpers, T
 			_.bindAll(this, 'error');
 		},
 
-		graph: function(e) {
-			var field  = $(e.currentTarget).data('field')
-			  , id     = this.model.get('id')
-			  , graph  = new Graph({field: field, id: id});
-
-			var addGraphBehavior = function(data) {
-				graph.chart.addSeries(data);
-				graph.chart.xAxis[0].setExtremes(config.GRAPH_START, config.GRAPH_END); 
+		graph: function(graph) {
+			return function addGraphBehavior (data) {
+				var today = new Date()
+				  , range = 86400000 * 7;
+				graph.chart.addSeries(data, false);
+				graph.chart.xAxis[0].setExtremes(today - range, today); 
 				graph.chart.hideLoading();
 			};
+		},
 
-			this.vent.trigger("FieldDataFetchBehavior", id, field, addGraphBehavior);
+		graphSingle: function(e) {
+			var field  = $(e.currentTarget).data('field')
+			  , id     = this.model.get('id')
+			  , graph  = new Graph({model: new Backbone.Model({id: id + '_' + field})});
+
+			/** 
+			 * Allow data fetchers in data.js to add data to line using callback provided 
+			 * by this.graph.
+			 */
 			this.vent.trigger("display:modal", graph);
-
+			this.vent.trigger("FieldDataFetchBehavior", id, field, this.graph(graph));
 			graph.chart.showLoading();
 		},
 
-		info: function() {
+		graphInfo: function() {
 			var id     = this.model.get('id')
-			  , graph  = new Graph({field: 'da, dt, da', id: id});
+			  , graph  = new Graph();
 
-			var addGraphBehavior = function addInfoGraphBehavior(data) {
-				graph.chart.addSeries(data);
-			    graph.chart.xAxis[0].setExtremes(config.GRAPH_START, config.GRAPH_END);
-				graph.chart.hideLoading();
-			};
-
-			this.vent.trigger('InfoDataFetchBehavior', id, addGraphBehavior); 
 			this.vent.trigger('display:modal', new InfoGraph({
 				model: this.model,
 				graph: graph
 			}));
-
+			this.vent.trigger('InfoDataFetchBehavior', id, this.graph(graph)); 
 			graph.chart.showLoading();
 		},
 

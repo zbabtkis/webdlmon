@@ -4,7 +4,6 @@ define(['backbone'
 	  , 'tpl!Templates/TableView.html'
 	  , 'tpl!Templates/TableRow.html'
 	  , 'Views/DataView'
-	  , 'WarnCounter'
 	  , 'semantic'
 	  , 'marionette'], 
 
@@ -26,8 +25,6 @@ function(Backbone, _, $, TableTemplate, RowTemplate, DataView, WarnCounter) {
 		collectionEvents: {
 			'sort': 'render'
 		},
-
-		WarnCounter: WarnCounter,
 
 		itemView: DataView.extend({
 			tagName: 'tr',

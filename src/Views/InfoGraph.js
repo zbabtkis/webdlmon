@@ -33,7 +33,6 @@ function(Backbone, Info, GraphView) {
 			setTimeout(function() {
 				_this.title.remove();
 				_this.graph.remove();
-				_this.graph.chart.destroy();
 			}, 1000);
 		}	
 	});
