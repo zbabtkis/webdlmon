@@ -140,7 +140,7 @@ type        : 'UI Element'
       </h3>
     </div>
   </div>
-  <div class="example">
+  <div class="clearing example">
     <h4 class="ui header">Text Alignment</h4>
     <p>A header can have its text aligned to a side</p>
     <div class="ui segment">
@@ -149,6 +149,9 @@ type        : 'UI Element'
       </h3>
       <h3 class="ui left aligned header">
         Left
+      </h3>
+      <h3 class="ui justified header">
+        This should take up the full width even if only one line
       </h3>
       <h3 class="ui center aligned header">
         Center

@@ -1,7 +1,7 @@
 /**
  * Pass these on when rendering into template to format DL info strings
  */
-define(['Settings', 'WarnCounter'], function(settings, WarnCounter) {
+define(['Settings'], function(settings) {
 	return {
 
 		getTemp: function(int) {

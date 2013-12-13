@@ -1,5 +1,5 @@
 /*
- * # Semantic - Dropdown
+ * # Semantic - Sidebar
  * http://github.com/jlukic/semantic-ui/
  *
  *
@@ -13,16 +13,19 @@
 
 $.fn.sidebar = function(parameters) {
   var
-    $allModules     = $(this),
-    moduleSelector  = $allModules.selector || '',
+    $allModules    = $(this),
+    $body          = $('body'),
+    $head          = $('head'),
 
-    time            = new Date().getTime(),
-    performance     = [],
+    moduleSelector = $allModules.selector || '',
 
-    query           = arguments[0],
-    methodInvoked   = (typeof query == 'string'),
-    queryArguments  = [].slice.call(arguments, 1),
-    invokedResponse
+    time           = new Date().getTime(),
+    performance    = [],
+
+    query          = arguments[0],
+    methodInvoked  = (typeof query == 'string'),
+    queryArguments = [].slice.call(arguments, 1),
+    returnedValue
   ;
 
   $allModules
@@ -40,14 +43,11 @@ $.fn.sidebar = function(parameters) {
         eventNamespace  = '.' + namespace,
         moduleNamespace = 'module-' + namespace,
 
-        $module  = $(this),
+        $module         = $(this),
+        $style          = $('style[title=' + namespace + ']'),
 
-        $body    = $('body'),
-        $head    = $('head'),
-        $style   = $('style[title=' + namespace + ']'),
-
-        element  = this,
-        instance = $module.data(moduleNamespace),
+        element         = this,
+        instance        = $module.data(moduleNamespace),
         module
       ;
 
@@ -99,28 +99,52 @@ $.fn.sidebar = function(parameters) {
           }
         },
 
-
-        show: function() {
-          module.debug('Showing sidebar');
+        show: function(callback) {
+          callback = $.isFunction(callback)
+            ? callback
+            : function(){}
+          ;
+          module.debug('Showing sidebar', callback);
           if(module.is.closed()) {
             if(!settings.overlay) {
+              if(settings.exclusive) {
+                module.hideAll();
+              }
               module.pushPage();
             }
             module.set.active();
+            callback();
+            $.proxy(settings.onChange, element)();
+            $.proxy(settings.onShow, element)();
           }
           else {
             module.debug('Sidebar is already visible');
           }
         },
 
-        hide: function() {
+        hide: function(callback) {
+          callback = $.isFunction(callback)
+            ? callback
+            : function(){}
+          ;
+          module.debug('Hiding sidebar', callback);
           if(module.is.open()) {
             if(!settings.overlay) {
               module.pullPage();
               module.remove.pushed();
             }
             module.remove.active();
+            callback();
+            $.proxy(settings.onChange, element)();
+            $.proxy(settings.onHide, element)();
           }
+        },
+
+        hideAll: function() {
+          $(selector.sidebar)
+            .filter(':visible')
+              .sidebar('hide')
+          ;
         },
 
         toggle: function() {
@@ -272,26 +296,22 @@ $.fn.sidebar = function(parameters) {
         },
 
         setting: function(name, value) {
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, settings, name);
-            }
-            else {
-              settings[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, settings, name);
+          }
+          else if(value !== undefined) {
+            settings[name] = value;
           }
           else {
             return settings[name];
           }
         },
         internal: function(name, value) {
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, module, name);
-            }
-            else {
-              module[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, module, name);
+          }
+          else if(value !== undefined) {
+            module[name] = value;
           }
           else {
             return module[name];
@@ -393,22 +413,22 @@ $.fn.sidebar = function(parameters) {
                 ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
                 : query
               ;
-              if( $.isPlainObject( instance[value] ) && (depth != maxDepth) ) {
-                instance = instance[value];
-              }
-              else if( $.isPlainObject( instance[camelCaseValue] ) && (depth != maxDepth) ) {
+              if( $.isPlainObject( instance[camelCaseValue] ) && (depth != maxDepth) ) {
                 instance = instance[camelCaseValue];
-              }
-              else if( instance[value] !== undefined ) {
-                found = instance[value];
-                return false;
               }
               else if( instance[camelCaseValue] !== undefined ) {
                 found = instance[camelCaseValue];
                 return false;
               }
+              else if( $.isPlainObject( instance[value] ) && (depth != maxDepth) ) {
+                instance = instance[value];
+              }
+              else if( instance[value] !== undefined ) {
+                found = instance[value];
+                return false;
+              }
               else {
-                module.error(error.method);
+                module.error(error.method, query);
                 return false;
               }
             });
@@ -419,14 +439,14 @@ $.fn.sidebar = function(parameters) {
           else if(found !== undefined) {
             response = found;
           }
-          if($.isArray(invokedResponse)) {
-            invokedResponse.push(response);
+          if($.isArray(returnedValue)) {
+            returnedValue.push(response);
           }
-          else if(typeof invokedResponse == 'string') {
-            invokedResponse = [invokedResponse, response];
+          else if(returnedValue !== undefined) {
+            returnedValue = [returnedValue, response];
           }
           else if(response !== undefined) {
-            invokedResponse = response;
+            returnedValue = response;
           }
           return found;
         }
@@ -446,8 +466,8 @@ $.fn.sidebar = function(parameters) {
     })
   ;
 
-  return (invokedResponse !== undefined)
-    ? invokedResponse
+  return (returnedValue !== undefined)
+    ? returnedValue
     : this
   ;
 };
@@ -462,10 +482,9 @@ $.fn.sidebar.settings = {
   performance : true,
 
   useCSS      : true,
+  exclusive   : true,
   overlay     : false,
   duration    : 300,
-
-  side        : 'left',
 
   onChange     : function(){},
   onShow       : function(){},
@@ -478,6 +497,10 @@ $.fn.sidebar.settings = {
     left   : 'left',
     right  : 'right',
     bottom : 'bottom'
+  },
+
+  selector: {
+    sidebar: '.ui.sidebar'
   },
 
   error   : {

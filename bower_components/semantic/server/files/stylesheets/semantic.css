@@ -93,13 +93,21 @@ h4 + p {
 pre {
   background-color: #F0F0F0;
 }
+pre.console {
+  background-color: transparent;
+  line-height: 1.6;
+  font-family:  'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  height: 300px;
+  overflow: auto;
+}
 code {
-  background-color: #F0F0F0;
-  border: 1px solid #E0E0E0;
+  background-color: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.1);
   display: inline-block;
   font-family: Courier New;
   font-size: 14px;
-  padding: 0.125em 0.25em;
+  margin: 0.25em;
+  padding: 0.125em 0.5em;
   vertical-align: middle;
 }
 pre code {
@@ -155,13 +163,36 @@ a:hover {
   background-color: #FFFFFF;
   border-bottom: 1px solid #DDDDDD;
 }
+
+#example > .tab.segment {
+  padding-bottom: 0em;
+  margin-bottom: 2em;
+}
+
+#example > .tab.segment .fixed .tabular.menu {
+  position: fixed;
+  top: 50px;
+}
+#example > .tab.segment .vertical.menu {
+  display: none;
+  margin: 2rem 0em 1rem;
+}
+#example > .tab.segment .tabular.menu {
+  margin: 2rem 0em 0em;
+  border-bottom: none;
+}
+#example > .tab.segment .tabular.menu .active.item {
+  background-color: #FAFAFA;
+  border-bottom-color: #FAFAFA;
+}
+
+
 #example .download.menu {
   margin-top: 0em;
   margin-bottom: 3rem;
 }
 
 #example .main.menu {
-  top: 0px;
   min-width: 320px;
   z-index: 900;
 
@@ -178,10 +209,6 @@ a:hover {
 }
 #example .main.menu iframe {
   margin: 0px 0px 0px 0px;
-}
-#example .main.menu .count {
-/*  font-size: 0.875em;
-  vertical-align: middle;*/
 }
 /* lists */
 #example .features {
@@ -382,7 +409,7 @@ body.guide .main.container > * {
 #example .advertisement {
   float: none;
   display: table-cell;
-  vertical-align: middle;
+  vertical-align: top;
   padding-left: 2em;
 }
 #example #carbonads-container {
@@ -508,9 +535,7 @@ body.guide .main.container > * {
   color: rgba(0, 0, 0, 0.5);
 }
 #example .stripe .message {
-  margin: 0em;
-  padding: 0em;
-  background-color: transparent;
+  margin: 2em 0em;
 }
 
 
@@ -518,14 +543,17 @@ body.guide .main.container > * {
   float: right;
   clear: both;
 }
-#example .page {
-  /* font-family: "Arial, Helvetica, sans-serif"; */
-}
 #example .launch.button {
   position: fixed;
   top: 63px;
   z-index: 500;
   width: 70px;
+}
+#example.index .main.menu {
+  top: 0px;
+}
+#example.index pre.console {
+  height: 120px;
 }
 #example.index .attached.launch.button {
   top: 96px;
@@ -564,6 +592,58 @@ body.guide .main.container > * {
 
 #example .ui.tab.segment {
   padding: 1.5em 2em;
+}
+#example .example .circular.segment {
+  width: 175px;
+  height: 175px;
+}
+
+#example.popup .example .popup {
+  color: #FF0000;
+}
+#example .position.example .icon {
+  position: absolute;
+  margin: 0em;
+}
+#example .position.example .segment {
+  width: 250px;
+  height: 250px;
+}
+#example .position.example .segment .icon:nth-of-type(1) {
+  top: 3em;
+  left: 3em;
+}
+#example .position.example .segment .icon:nth-of-type(2) {
+  top: 3em;
+  left: 50%;
+  margin-left: -1em;
+}
+#example .position.example .segment .icon:nth-of-type(3) {
+  top: 3em;
+  right: 3em;
+}
+#example .position.example .segment .icon:nth-of-type(4) {
+  top: 50%;
+  margin-top: -1em;
+  right: 3em;
+}
+#example .position.example .segment .icon:nth-of-type(5) {
+  bottom: 3em;
+  right: 3em;
+}
+#example .position.example .segment .icon:nth-of-type(6) {
+  bottom: 3em;
+  left: 50%;
+  margin-left: -1em;
+}
+#example .position.example .segment .icon:nth-of-type(7) {
+  bottom: 3em;
+  left: 3em;
+}
+#example .position.example .segment .icon:nth-of-type(8) {
+  top: 50%;
+  margin-top: -1em;
+  left: 3em;
 }
 
 #example .main.ui.grid {
@@ -694,6 +774,12 @@ body.guide .main.container > * {
 #example.overview h2.ui.header {
   margin-bottom: 0em;
 }
+/*
+#example .ui.header ~ .ui.message a,
+#example .ui.header ~ p a {
+  font-weight: bold;
+}
+*/
 #example.overview .example {
   margin: 0em;
   min-height: 0px !important;
@@ -789,7 +875,7 @@ body.guide .main.container > * {
   background-color: transparent;
 }
 #example .label + div.code {
-  margin-top: 1em;
+  margin-top: 1.5em;
 }
 #example div.code .ace_gutter {
   background-color: #FAFAFA;
@@ -951,6 +1037,7 @@ body.guide .main.container > * {
   display: none;
 }
 
+#example .example:first-child,
 #example h2 + .example,
 #example h3 + .example,
 #example h4 + .example {
@@ -966,11 +1053,15 @@ body.guide .main.container > * {
 #example .example > h4 {
   margin-bottom: 0em;
 }
+
+#example .clearing.example {
+  clear: both;
+}
 #example .example {
   margin: 1em 0em;
   padding: 1em 0em;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
-  clear: both;
+/*  clear: both;*/
   position: relative;
 }
 #example .example .grid i.code {
@@ -1154,10 +1245,14 @@ body.progress .ui.progress .bar {
   font-family: 'Basic Icons';
 }
 
+#example .fixed.column .sticky-wrapper {
+  height: 0px !important;
+}
 
-#example .fixed.column,
-#example .fixed.segment {
+#example .fixed.column .fixed,
+#example .fixed.segment .fixed {
   position: fixed;
+  top: 65px;
   -webkit-perspective: 2000px;
   -moz-perspective: 2000px;
   -ms-perspective: 2000px;
@@ -1168,6 +1263,7 @@ body.progress .ui.progress .bar {
   -ms-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
+
 
 
 @media only screen and (max-width : 1725px) {
@@ -1230,6 +1326,9 @@ body.progress .ui.progress .bar {
   }
 }
 @media only screen and (max-width : 780px) {
+  pre.console {
+    height: 150px;
+  }
   #example.index .masthead {
     text-align: center;
     padding: 50px 0px 15px;
@@ -1312,6 +1411,13 @@ body.progress .ui.progress .bar {
   #example .fixed .next {
     display: none;
   }
+  #example > .tab.segment .tabular.menu {
+    display: none;
+  }
+
+  #example > .tab.segment .vertical.menu {
+    display: block;
+  }
 }
 @media only screen and (max-width : 450px) {
   #example .main.menu .icon.item {
@@ -1361,17 +1467,39 @@ body.progress .ui.progress .bar {
     width: auto;
     padding: 0% 4%;
   }
+  #example.transition .examples {
+    width: 100%;
+  }
+  #example.transition .examples .pointing.below.label {
+    display: none;
+  }
 }
 @media only screen and (min-width : 998px) {
   #example.index .main.menu .container {
     width: auto;
     padding: 0% 8%;
   }
+  #example .examples {
+    margin-right: 400px;
+  }
+  #example .fixed.column,
+  #example .fixed.column .fixed {
+    float: right;
+    width: 300px;
+  }
 }
 @media only screen and (min-width : 1500px) {
   #example.index .main.menu .container {
     width: auto;
     padding: 0% 13%;
+  }
+  #example .examples {
+    margin-right: 500px;
+  }
+  #example .fixed.column,
+  #example .fixed.column .fixed  {
+    float: right;
+    width: 400px;
   }
 }
 @media only screen and (min-width : 1750px) {

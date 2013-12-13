@@ -2,7 +2,7 @@
 layout      : 'default'
 css         : 'form'
 
-title       : 'Validate Form'
+title       : 'Form Validation'
 description : 'A form validation behavior checks user input data against a set of criteria before passing along the data to the server'
 type        : 'UI Behavior'
 ---
@@ -231,7 +231,7 @@ type        : 'UI Behavior'
 
   <h2 class="ui dividing header">Behavior</h2>
 
-  All the following behaviors can be called using the syntax <code>$('.foo').form('behavior name', argumentOne, argumentTwo)</code>
+  All the following <a href="/module.html#/behavior">behaviors</a> can be called using the syntax <code>$('.foo').form('behavior name', argumentOne, argumentTwo)</code>
 
   <table class="ui definition celled table segment">
     <tr>
@@ -248,7 +248,7 @@ type        : 'UI Behavior'
     </tr>
     <tr>
       <td>get field(id)</td>
-      <td>Returns element with maching name, id, or data-validate metadata to ID</td>
+      <td>Returns element with matching name, id, or data-validate metadata to ID</td>
     </tr>
     <tr>
       <td>get validation(element)</td>
@@ -271,7 +271,7 @@ type        : 'UI Behavior'
     <div class="sub header">Form settings modify the form validation behavior</div>
   </h3>
 
-  <table class="ui red celled definition table segment">
+  <table class="ui red celled sortable definition table segment">
     <thead>
       <th>Setting</th>
       <th class="four wide">Default</th>
@@ -287,6 +287,16 @@ type        : 'UI Behavior'
         <td>on</td>
         <td>submit</td>
         <td>Event used to trigger validation. Can be either <b>submit</b>, <b>blur</b> or <b>change</b>.</td>
+      </tr>
+      <tr>
+        <td>revalidate</td>
+        <td>true</td>
+        <td>If set to true will revalidate fields with errors on input change</td>
+      </tr>
+      <tr>
+        <td>delay</td>
+        <td>true</td>
+        <td>Delay from last typed letter to validate a field when using <code>on: change</code> or when revalidating a field.</td>
       </tr>
       <tr>
         <td>inline</td>
@@ -315,7 +325,7 @@ type        : 'UI Behavior'
     <div class="sub header">Validation rules are a set of conditions required to validate a field</div>
   </h3>
   <div class="ui info message">Validation rules are found in <code>settings.rules</code>, to add new global validation rules, modify <code>$.fn.form.settings.rules</code> to include your function.</div>
-  <table class="ui teal celled definition table segment">
+  <table class="ui teal celled sortable definition table segment">
     <thead>
       <th class="four wide">Name</th>
       <th>Arguments</th>
@@ -330,7 +340,7 @@ type        : 'UI Behavior'
       <tr>
         <td>email</td>
         <td>value</td>
-        <td>Checks whether a field is empty</td>
+        <td>Checks whether a field is a valid email address</td>
       </tr>
       <tr>
         <td>length</td>
@@ -367,6 +377,11 @@ type        : 'UI Behavior'
         <td>value</td>
         <td>Checks whether a field is a url</td>
       </tr>
+      <tr>
+        <td>checked</td>
+        <td>-</td>
+        <td>Checks whether a checkbox field is checked</td>
+      </tr>
     </tbody>
   </table>
 
@@ -374,7 +389,7 @@ type        : 'UI Behavior'
 
   <h3 class="ui header">
     Callbacks
-    <div class="sub header">Callback settings specify a function to occur after a specific behavior.</div>
+    <div class="sub header">Callbacks specify a function to occur after a specific behavior.</div>
   </h3>
 
   <table class="ui celled green definition table segment">
@@ -506,7 +521,7 @@ type        : 'UI Behavior'
     <div class="sub header">Debug settings controls debug output to the console</div>
   </h3>
 
-  <table class="ui blue celled definition table segment">
+  <table class="ui blue celled sortable definition table segment">
     <thead>
       <th>Setting</th>
       <th class="four wide">Default</th>
@@ -547,6 +562,3 @@ type        : 'UI Behavior'
   </table>
 
 </div>
-</body>
-
-</html>

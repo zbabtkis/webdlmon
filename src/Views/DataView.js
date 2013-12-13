@@ -50,7 +50,7 @@ function (Backbone, $, _, config, Messages, Graph, InfoGraph, TemplateHelpers, T
 		graphSingle: function(e) {
 			var field  = $(e.currentTarget).data('field')
 			  , id     = this.model.get('id')
-			  , graph  = new Graph({model: new Backbone.Model({id: id + '_' + field})});
+			  , graph  = new Graph({model: new Backbone.Model({title: id + '_' + field})});
 
 			/** 
 			 * Allow data fetchers in data.js to add data to line using callback provided 
@@ -63,7 +63,7 @@ function (Backbone, $, _, config, Messages, Graph, InfoGraph, TemplateHelpers, T
 
 		graphInfo: function() {
 			var id     = this.model.get('id')
-			  , graph  = new Graph();
+			  , graph  = new Graph({model: new Backbone.Model({title: id})});
 
 			this.vent.trigger('display:modal', new InfoGraph({
 				model: this.model,

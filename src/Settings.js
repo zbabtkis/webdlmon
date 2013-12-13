@@ -24,8 +24,8 @@ define(function() {
 						 + "This data is old because dlmon2json has stopped!"; 
 
 
-	settings.GRAPH_START = new Date() - 84000 * 7;
-	settings.GRAPH_END   = new Date();
+	settings.GRAPH_START = new Date().getTime() - 84000 * 7;
+	settings.GRAPH_END   = new Date().getTime();
 
 	/**
 	 * Preferences for ranges of acceptable data logger behavior

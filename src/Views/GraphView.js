@@ -6,12 +6,13 @@ define(['backbone', 'jquery', 'Views/Messages', 'underscore', 'highcharts', 'sem
 
 function(Backbone, $, Message, _, Highstock) {
 	var GraphView = Backbone.View.extend({
-		/** Highstock options */
 		settings: function() {
 			return {
 				legend: {
 					enabled: true,
 				},
+
+				animation: false,
 
 				navigator: {
 					enabled: false
@@ -47,6 +48,10 @@ function(Backbone, $, Message, _, Highstock) {
 						text: 'All'
 					}],
 					selected: 1
+				},
+
+				title: {
+					text: this.model.get('title')
 				},
 
 				chart: {

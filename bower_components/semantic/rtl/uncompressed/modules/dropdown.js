@@ -24,7 +24,7 @@ $.fn.dropdown = function(parameters) {
     query          = arguments[0],
     methodInvoked  = (typeof query == 'string'),
     queryArguments = [].slice.call(arguments, 1),
-    invokedResponse
+    returnedValue
   ;
 
   $allModules
@@ -63,16 +63,11 @@ $.fn.dropdown = function(parameters) {
 
           module.set.selected();
 
-          // no use detecting mouse events because touch devices emulate them
           if(hasTouch) {
             module.bind.touchEvents();
           }
+          // no use detecting mouse events because touch devices emulate them
           module.bind.mouseEvents();
-
-          $document
-            .one('mousemove' + eventNamespace, module.set.hasMouse)
-          ;
-
           module.instantiate();
         },
 
@@ -161,14 +156,14 @@ $.fn.dropdown = function(parameters) {
         event: {
           test: {
             toggle: function(event) {
-              module.determine.intent(event, module.toggle);
-              event.preventDefault();
-              event.stopImmediatePropagation();
+              if( module.determine.intent(event, module.toggle) ) {
+                event.preventDefault();
+              }
             },
             touch: function(event) {
               module.determine.intent(event, function() {
                 if(event.type == 'touchstart') {
-                  module.timer = setTimeout(module.hide, 50);
+                  module.timer = setTimeout(module.hide, settings.delay.touch);
                 }
                 else if(event.type == 'touchmove') {
                   clearTimeout(module.timer);
@@ -178,7 +173,6 @@ $.fn.dropdown = function(parameters) {
             },
             hide: function(event) {
               module.determine.intent(event, module.hide);
-              event.stopPropagation();
             }
           },
 
@@ -216,13 +210,16 @@ $.fn.dropdown = function(parameters) {
             click: function (event) {
               var
                 $choice = $(this),
-                text    = $choice.data(metadata.text)  || $choice.text(),
-                value   = $choice.data(metadata.value) || text.toLowerCase()
+                text    = ( $choice.data(metadata.text) !== undefined )
+                  ? $choice.data(metadata.text)
+                  : $choice.text(),
+                value   = ( $choice.data(metadata.value) !== undefined)
+                  ? $choice.data(metadata.value)
+                  : text.toLowerCase()
               ;
               if( $choice.find(selector.menu).size() === 0 ) {
                 module.determine.selectAction(text, value);
                 $.proxy(settings.onChange, element)(value, text);
-                event.preventDefault();
               }
             }
 
@@ -246,7 +243,7 @@ $.fn.dropdown = function(parameters) {
               settings.action(text, value);
             }
             else {
-              module.error(error.action);
+              module.error(error.action, settings.action);
             }
           },
           intent: function(event, callback) {
@@ -255,9 +252,11 @@ $.fn.dropdown = function(parameters) {
             if( $(event.target).closest($menu).size() === 0 ) {
               module.verbose('Triggering event', callback);
               callback();
+              return true;
             }
             else {
               module.verbose('Event occurred in dropdown, canceling callback');
+              return false;
             }
           }
         },
@@ -271,7 +270,10 @@ $.fn.dropdown = function(parameters) {
           },
 
           activate: function(text, value) {
-            value = value || text;
+            value = (value !== undefined)
+              ? value
+              : text
+            ;
             module.set.selected(value);
             module.set.value(value);
             module.hide();
@@ -279,7 +281,10 @@ $.fn.dropdown = function(parameters) {
 
           /* Deprecated */
           auto: function(text, value) {
-            value = value || text;
+            value = (value !== undefined)
+              ? value
+              : text
+            ;
             module.set.selected(value);
             module.set.value(value);
             module.hide();
@@ -287,14 +292,20 @@ $.fn.dropdown = function(parameters) {
 
           /* Deprecated */
           changeText: function(text, value) {
-            value = value || text;
+            value = (value !== undefined)
+              ? value
+              : text
+            ;
             module.set.selected(value);
             module.hide();
           },
 
           /* Deprecated */
           updateForm: function(text, value) {
-            value = value || text;
+            value = (value !== undefined)
+              ? value
+              : text
+            ;
             module.set.selected(value);
             module.set.value(value);
             module.hide();
@@ -307,20 +318,32 @@ $.fn.dropdown = function(parameters) {
             return $text.text();
           },
           value: function() {
-            return $input.val();
+            return ($input.size() > 0)
+              ? $input.val()
+              : $module.data(metadata.value)
+            ;
           },
           item: function(value) {
             var
               $selectedItem
             ;
-            value = value || module.get.value() || module.get.text();
-            if(value) {
+            value = (value !== undefined)
+              ? value
+              : ( module.get.value() !== undefined)
+                ? module.get.value()
+                : module.get.text()
+            ;
+            if(value !== undefined) {
               $item
                 .each(function() {
                   var
                     $choice       = $(this),
-                    optionText    = $choice.data(metadata.text)  || $choice.text(),
-                    optionValue   = $choice.data(metadata.value) || optionText.toLowerCase()
+                    optionText    = ( $choice.data(metadata.text) !== undefined )
+                      ? $choice.data(metadata.text)
+                      : $choice.text(),
+                    optionValue   = ( $choice.data(metadata.value) !== undefined )
+                      ? $choice.data(metadata.value)
+                      : optionText.toLowerCase()
                   ;
                   if( optionValue == value || optionText == value ) {
                     $selectedItem = $(this);
@@ -344,7 +367,12 @@ $.fn.dropdown = function(parameters) {
           },
           value: function(value) {
             module.debug('Adding selected value to hidden input', value, $input);
-            $input.val(value);
+            if($input.size() > 0) {
+              $input.val(value);
+            }
+            else {
+              $module.data(metadata.value, value);
+            }
           },
           active: function() {
             $module.addClass(className.active);
@@ -359,7 +387,10 @@ $.fn.dropdown = function(parameters) {
             ;
             if($selectedItem) {
               module.debug('Setting selected menu item to', $selectedItem);
-              selectedText = $selectedItem.data(metadata.text) || $selectedItem.text();
+              selectedText = ($selectedItem.data(metadata.text) !== undefined)
+                ? $selectedItem.data(metadata.text)
+                : $selectedItem.text()
+              ;
               $item
                 .removeClass(className.active)
               ;
@@ -384,16 +415,22 @@ $.fn.dropdown = function(parameters) {
           selection: function() {
             return $module.hasClass(className.selection);
           },
+          animated: function($subMenu) {
+            return ($subMenu)
+              ? $subMenu.is(':animated') || $subMenu.transition('is animating')
+              : $menu.is(':animated') || $menu.transition('is animating')
+            ;
+          },
           visible: function($subMenu) {
             return ($subMenu)
-              ? $subMenu.is(':animated, :visible')
-              : $menu.is(':animated, :visible')
+              ? $subMenu.is(':visible')
+              : $menu.is(':visible')
             ;
           },
           hidden: function($subMenu) {
             return ($subMenu)
-              ? $subMenu.is(':not(:animated, :visible)')
-              : $menu.is(':not(:animated, :visible)')
+              ? $subMenu.is(':not(:visible)')
+              : $menu.is(':not(:visible)')
             ;
           }
         },
@@ -418,7 +455,7 @@ $.fn.dropdown = function(parameters) {
               if(settings.transition == 'none') {
                 callback();
               }
-              else if($.fn.transition !== undefined) {
+              else if($.fn.transition !== undefined && $module.transition('is supported')) {
                 $currentMenu.transition({
                   animation : settings.transition + ' in',
                   duration  : settings.duration,
@@ -455,7 +492,7 @@ $.fn.dropdown = function(parameters) {
                 ;
               }
               else {
-                module.error(error.transition);
+                module.error(error.transition, settings.transition);
               }
             }
           },
@@ -466,7 +503,7 @@ $.fn.dropdown = function(parameters) {
             callback = callback || function(){};
             if(module.is.visible($currentMenu) ) {
               module.verbose('Doing menu hide animation', $currentMenu);
-              if($.fn.transition !== undefined) {
+              if($.fn.transition !== undefined && $module.transition('is supported')) {
                 $currentMenu.transition({
                   animation : settings.transition + ' out',
                   duration  : settings.duration,
@@ -517,16 +554,18 @@ $.fn.dropdown = function(parameters) {
           if( module.is.hidden() ) {
             module.hideOthers();
             module.set.active();
-            module.animate.show(module.set.visible);
-            if( module.can.click() ) {
-              module.bind.intent();
-            }
+            module.animate.show(function() {
+              if( module.can.click() ) {
+                module.bind.intent();
+              }
+              module.set.visible();
+            });
             $.proxy(settings.onShow, element)();
           }
         },
 
         hide: function() {
-          if( module.is.visible() ) {
+          if( !module.is.animated() && module.is.visible() ) {
             module.debug('Hiding dropdown');
             if( module.can.click() ) {
               module.unbind.intent();
@@ -570,26 +609,22 @@ $.fn.dropdown = function(parameters) {
         },
 
         setting: function(name, value) {
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, settings, name);
-            }
-            else {
-              settings[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, settings, name);
+          }
+          else if(value !== undefined) {
+            settings[name] = value;
           }
           else {
             return settings[name];
           }
         },
         internal: function(name, value) {
-          if(value !== undefined) {
-            if( $.isPlainObject(name) ) {
-              $.extend(true, module, name);
-            }
-            else {
-              module[name] = value;
-            }
+          if( $.isPlainObject(name) ) {
+            $.extend(true, module, name);
+          }
+          else if(value !== undefined) {
+            module[name] = value;
           }
           else {
             return module[name];
@@ -688,22 +723,22 @@ $.fn.dropdown = function(parameters) {
                 ? value + query[depth + 1].charAt(0).toUpperCase() + query[depth + 1].slice(1)
                 : query
               ;
-              if( $.isPlainObject( instance[value] ) && (depth != maxDepth) ) {
-                instance = instance[value];
-              }
-              else if( $.isPlainObject( instance[camelCaseValue] ) && (depth != maxDepth) ) {
+              if( $.isPlainObject( instance[camelCaseValue] ) && (depth != maxDepth) ) {
                 instance = instance[camelCaseValue];
-              }
-              else if( instance[value] !== undefined ) {
-                found = instance[value];
-                return false;
               }
               else if( instance[camelCaseValue] !== undefined ) {
                 found = instance[camelCaseValue];
                 return false;
               }
+              else if( $.isPlainObject( instance[value] ) && (depth != maxDepth) ) {
+                instance = instance[value];
+              }
+              else if( instance[value] !== undefined ) {
+                found = instance[value];
+                return false;
+              }
               else {
-                module.error(error.method);
+                module.error(error.method, query);
                 return false;
               }
             });
@@ -714,14 +749,14 @@ $.fn.dropdown = function(parameters) {
           else if(found !== undefined) {
             response = found;
           }
-          if($.isArray(invokedResponse)) {
-            invokedResponse.push(response);
+          if($.isArray(returnedValue)) {
+            returnedValue.push(response);
           }
-          else if(typeof invokedResponse == 'string') {
-            invokedResponse = [invokedResponse, response];
+          else if(returnedValue !== undefined) {
+            returnedValue = [returnedValue, response];
           }
           else if(response !== undefined) {
-            invokedResponse = response;
+            returnedValue = response;
           }
           return found;
         }
@@ -742,8 +777,8 @@ $.fn.dropdown = function(parameters) {
     })
   ;
 
-  return (invokedResponse)
-    ? invokedResponse
+  return (returnedValue)
+    ? returnedValue
     : this
   ;
 };
@@ -761,14 +796,15 @@ $.fn.dropdown.settings = {
   action      : 'activate',
 
   delay: {
-    show: 200,
-    hide: 300
+    show  : 200,
+    hide  : 300,
+    touch : 50
   },
 
   transition : 'slide down',
   duration   : 250,
 
-  onChange : function(){},
+  onChange : function(value, text){},
   onShow   : function(){},
   onHide   : function(){},
 

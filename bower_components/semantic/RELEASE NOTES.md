@@ -1,5 +1,248 @@
 ## RELEASE NOTES
 
+### Version 0.10.0 - Dec 05, 2013
+
+**New**
+- **Grid** - Adds ``doubling`` responsive variation which automatically formats content spacing based on device type
+- **Form Validation** - Adds two new parameters, to allow for changing of revalidation and delay on input
+
+**Updates**
+- **Grid** - Row padding is now EM not % based, this might shift layouts slightly
+- **Grid** - Grid columns not inside a row will automatically receive row padding now. This will allow for content to flow correctly when row count is unknown
+
+**Fixes**
+- **Grid** - Fixes margin on stackable grids
+- **Dropdown** - Value can be retrieved even in instances where forms arent used
+
+### Version 0.9.6 - Dec 04, 2013
+
+**Updates**
+- **Rating** - Ratings now recieve class disabled when read only, instead of recieving ``active`` when rateable since active are much more common
+- **Grid** - Fixes some instances where grid column width ``x wide`` was being overruled by parent element ``x column``.
+- **Header, Grid, Segment** - Adds justified alignemnt
+- **Message** - Fixes issues with attached icon message (thanks overra)
+
+### Version 0.9.5 - Nov 25, 2013
+
+**New**
+- **Segment** - Segments now have a circular variation
+
+**Fixes**
+- LESS files now include vendor prefixes by default instead of only including them in css releases
+
+### Version 0.9.4 - Nov 24, 2013
+
+**Fixes**
+- **Dropdown** - Fixes issue where falsey value (i.e. 0) could not be selected
+- **Transition** - Fixes transition exists function from not being called
+- **Form** - Adds input type="url" to forms
+- **Sidebar** - Fixes right sidebars to correctly allow for sizing (Thanks DveMac)
+- **Sidebar** - Typo in sidebar header (Thanks slobo)
+
+
+**Docs**
+- Fixes various typos and missing closing html tags
+
+### Version 0.9.3 - Nov 17, 2013
+
+**Fixes**
+- **Dropdown** - Fixes "falsey" values (like 0) not being processed correctly
+- **Segment** - Fixes segment text color when nested inside inverted segment
+- **Button** - Fixes improper active/visible state due to :not specificity (most noticiable in mousedown on a dropdown button)
+
+### Version 0.9.2 - Nov 8, 2013
+
+**Fixes** - Fixes popup not repositioning itself when offstage.
+
+### Version 0.9.1 - Nov 7, 2013
+
+**New**
+- **Popup** - Adds context option for popup (thanks jefmathiot)
+- **Accordion** - Adds formatting for nested accordions
+
+**Updates**
+- **Accordion** - Fixes issue with accordion events inside accordions
+
+### Version 0.9.0 - Nov 5, 2013
+
+**New**
+- **Button** - Basic icons now have inverted style
+- **Segment** - Segments can now be used with ``ui grid`` and ``ui grid column/row``
+- **List** - Adds animated list variation
+
+**Docs**
+- **Release** - Fixes issues with minification in grunt
+- **Examples** - Adds new homepage example to release zip
+- **Code Samples** - Updates ACE editor version
+
+**Updates**
+- **List** - Updated some list styles for greater flexibility
+- **Dropdown** - Dropdown now always receives pointer cursor in all types
+- **Form** - Darkens placeholder text color to be more visible
+- **Menu** - Dropdown position inside secondary menus should be more precise
+- **Input** - Labeled icons now have smaller corner labels
+- **Menu** - Floating dropdown menus now work inside menus
+- **Button** - UI buttons no longer have shadows, this helps match colored buttons in layouts
+
+**Fixes**
+- **Header** - Fixes alignment of solo icons in headers
+- **Button** - Fixes labeled icon placement in Chrome
+- **Modal** - Fixes use of unsupported comma separated :not selector
+- **Modal** - Fixes left/right ui content receiving modal styles inappropriately
+- **Menu** - Fixes some inverted menu stylings not applying correctly in some instances
+- **Grid** - Fixes comp/tablet/mobile only columns not working if not inside a row
+
+### Version 0.8.6 - Nov 2, 2013
+
+**Fixes**
+- **Modal** - Fixes issue with scrollable variation on mobile, updates mobile styles
+
+**Docs**
+- Fixes bug in jquery waypoint 2.0.3 causing menus to be lame
+
+### Version 0.8.5 - Nov 2, 2013
+
+**Fixes**
+- **Modal** - Fixed issue with modals not working in 0.8.4 due to mistake in transition invoke
+- **Modules** - Invoke now gives user's query in error message for method not found
+
+### Version 0.8.4 - Nov 1, 2013
+
+**Fixes**
+- **Modules** - Fixes bug where invoking a sentence behavior that has a single word match would always invoke single word match. I.e. ``show modal`` would mistakenly call ``show`` if it existed.
+- **Modules** - Adds CSS transition support detection to all modules using css transitions to allow for graceful degradation for IE8
+
+**Docs**
+- **Download** - Fixes issue where non minified source was being included with minified copy
+- **IE** - Fixed some issue with IE display in docs
+
+### Version 0.8.3 - Oct 30, 2013
+
+**Fixes**
+- **Modal** - Adds fixes for opening modals when other modals are opened, adds a few new API behaviors
+- **Form** - Fixes issues with form validation not escaping regex characters
+- **Form** - Errored fields now have their icons and corner labels colored appropriately
+- **Labels** - Fixes formatting of links inside labels
+
+### Version 0.8.2 - Oct 28, 2013
+
+**Fixes**
+- **Modal** - Quick Fix for modal events in IE
+- **Menu** - Fixes arrow direction on vertical menu dropdown
+- **Button** - Fixes button height issue with button groups including icon and normal buttons
+
+**Docs**
+- Fixes some missing closing tags
+
+### Version 0.8.1 - Oct 26, 2013
+
+**Fixes**
+- **Button** - Fixes colored version sometime losing white text color
+- **Button** - Fixes 1pixel jump on animated fade buttons
+
+**Docs**
+- Prefixer now used for prefixing in grunt
+- Spelling fixes
+
+### Version 0.8.0 - Oct 25, 2013
+
+**New**
+- **Button** - Default button styles have been significantly tweaked
+- **Button** - Evenly divided buttons can use number classes instead of words ``class="2 buttons"``
+- **Button** - New animated button styles, fade, horizontal, and vertical
+
+**Fixes**
+- **Button** - Fixes "or" sizing to work for all sizes
+- **Dropdown** - Fixes border radius on non-selection dropdowns from changing on activation
+- **Input** - Action buttons now have tactile feedback like normal buttons
+
+**Docs**
+- Added more detailed contributing guide
+- Updates info on setting up server
+- Added new examples to button and input
+
+### Version 0.7.2 - Oct 23, 2013
+
+**Fixes**
+- **Modal** - Fixes issue with modal hiding twice onApprove
+
+### Version 0.7.1 - Oct 23, 2013
+
+**Fixes**
+- **Dropdown** - Fixes issue with dropdown icon position in chrome
+- **Popup** - Fixes issue with popup's using setting inline: true
+
+### Version 0.7.0 - Oct 22, 2013
+
+**New**
+- **Table** - Added aweosome new responsive style to ui tables
+- **Button** - New social buttons for Instagram, LinkedIn, Google Plus, Pinterest
+- **List** - Adds documentation for module format
+- **List** - Adds onTabInit for local tabs on first load
+- **List** - Popups can now have a different target than itself
+- **Modal** - Modal hide can be cancelled from ``onApprove`` and ``onDeny`` by returning false from callback
+- **Transition** - onShow and onHide callbacks for visibilit changing transitions
+- **Shape** - New 'cube' and 'text' shape type
+- **Shape** - Transition duration can now be set programatically
+- **Shape** - New beforeChange callback
+- **Sidebar** - Sidebar will now default to being exclusive and hiding other sidebars on show
+- **Sidebar** - Sidebar now has onChange, onShow, onHide callbacks
+- **Sidebar** - Sidebar now have several size variations, and a new styled variation that comes preformatted
+
+**Docs**
+- **Dimmer** - Adds more dimmer examples, fixes settings
+- **Modules** - New examples and docs for all modules
+- Adds sortable tables to docs
+- New tabbed doc style for modules
+- Code samples will now automatically format indention
+
+**Fixes**
+- **Button** - Fixes vertical fluid buttons not taking up full width
+- **Shape** - Shape now works with no additional stylings
+- **Shape** - Fixes calculation of next side size to work correctly by using offstage element
+- **Modules** - Fixed issue when altering settings using ``module('setting')`` with an object
+- **Dimmer** - Dimmer now obeys border radius of parent
+- **Dropdown** - Dropdown cannot display inside item image
+- **Dropdown** - Dropdown links were being prevented by event.preventDefault used for touch devices
+- **Dropdown** - Fixes issue with borders on selection dropdown
+- **Dropdown** - Fixes pointing dropdown to appear correctly in menu
+- **List** - Celled tables now have celled table headers
+- **Menu** - Fixes border radius on tabular menu, fixes one pixel jump on active state
+- **Menu** - Removes vertical label width missing units in menu
+- **Popup** - Popup .toggle() now always hides/shows popup correctly
+- **Popup** - Popup fixed a bug where "top right" placed popup might sometimes be too large
+- **Popup** - Popup will not reshow a visible popup on hover
+
+**Updates**
+- **Accordion** - Reduces vertical padding on basic accordion content
+- **Header** - Block header now uses RGBA instead of solid color by default
+- **Label** - Ribbon labels now have a shadow color
+- **List** - Horizontal padding on icon list slightly increased, fixes to icon position
+- **List** - Increased padding on attached labels
+- **List** - Leading on bulleted and ordered list slightly increased
+- **Message** - Increase opacity of icons on icon messages
+- **Modal** - Optimizes dimmer init on modal to occur on modal init and not modal show
+- **Popup** - Popup border now uses RGBA to look sexier on dark backgrounds
+- **Popup** - Popup default duration is now 200ms (slighty slower)
+- **Popup** - Popup metadata attribute arrowOffset is now offset for simplicities sake
+- **Popup** - Popup no-longer receives class name 'visible' on show, this allows popups to be used on dropdowns and other elements with a visible state
+- **Popup** - Popups are no longer inline by default
+- **Table** - Table headers are now darker to increase contrast with rainbow striped rows
+- **Sidebar** - Floating sidebar is slightly less heavily shadowed
+
+
+### Version 0.6.5 - Oct 18, 2013
+
+**Fixes**
+- Fixes issue where browser default action, like link clicking, was prevented on dropdown item click
+- Modal keyboard shortcuts now obey settings.closable (credit to luisrudge)
+
+
+### Version 0.6.4 - Oct 16, 2013
+
+**Fixes**
+- Fixes issue where browser default action, like link clicking, was prevented on dropdown item click
+
 ### Version 0.6.3 - Oct 15, 2013
 
 **Deprecation**

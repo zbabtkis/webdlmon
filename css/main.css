@@ -50,6 +50,9 @@ body, #app {
 	float: left;
 	margin: 15px !important;
 }
+.ui.grid>.row.column {
+	margin: 0;
+}
 .overview .ui.inverted.segment {
 	background: #555;
 }

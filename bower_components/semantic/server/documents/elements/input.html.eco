@@ -92,14 +92,6 @@ type        : 'UI Element'
         <i class="asterisk icon"></i>
       </div>
     </div>
-    <br><br>
-    <div class="ui labeled input">
-      <input type="text" placeholder="Search...">
-      <div class="ui corner label">
-        <div class="text">New</div>
-      </div>
-    </div>
-
   </div>
 
   <div class="example">
@@ -112,8 +104,8 @@ type        : 'UI Element'
   </div>
   <div class="another example">
     <div class="ui action input">
-      <input type="text" placeholder="Username">
-      <div class="ui teal button"><i class="user icon"></i> Add users</div>
+      <input type="text" value="http://ww.short.url/c0opq">
+      <div class="ui teal right labeled icon button"><i class="copy icon"></i> Copy</div>
     </div>
   </div>
   <div class="another example">

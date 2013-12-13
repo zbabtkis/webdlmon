@@ -22,10 +22,7 @@
 <body>
 	<div id='app' class='container'>
 		<header>
-
 			<a href='/'><h2 id='page-title'>web<span class='offcolor'>dl</span>mon</h2></a>
-			<p>When you load this page, data will begin to stram in automatically, if it does not, click the <i class='clockwise icon'></i> (refresh) button below. If you would like to freeze the data as is, press the <i class='pause icon'></i> (pause) button located next to the refresh button at the bottom of the table.</p>
-		
 		</header>
 
 
@@ -47,7 +44,7 @@
 		</main>
 	</div>
 
-	<div class='ui modal'>
+	<div id='graph-modal' class='ui modal'>
 		<!-- Display charts and detailed data here -->
 	</div>
 
@@ -55,6 +52,6 @@
 		<!-- Display spin.js spinner here -->
 	</div>
 
-	<script src='bower_components/requirejs/require.js' data-main='src/app'></script>
+	<script src='bower_components/requirejs/require.js' data-main='src/main'></script>
 </body>
 </html>
