@@ -18,13 +18,13 @@ $.when($.getJSON('myData.json'))
   /**
    * @param data [
    *    {
-   *      id: "SB_WLA",
+   *      id: "MY_LOG_1",
    *      dt: 36.46955,
    *      dv: 12.323505,
    *      da: 0.06877045
    *    },
    *    {
-   *      id: "SB_WLA",
+   *      id: "MY_LOG_2",
    *      dt: 37.98347,
    *      dv: 11.346475,
    *      da: 0.43997547
@@ -32,18 +32,45 @@ $.when($.getJSON('myData.json'))
    *  ]
    * 
    *  OR
-   *    {
-   *      id: "SB_WLA",
-   *      dt: 37.98347,
-   *      dv: 11.346475,
-   *      da: 0.43997547
-   *    }
+   *  {
+   *    id: "MY_LOG_1",
+   *    dt: 37.98347,
+   *    dv: 11.346475,
+   *    da: 0.43997547
+   *  }
    *  
    */
   .then(function(data) {
     vent.trigger('data', data);
   });
 ```
+
+Providing data for graphing date logger history is also done using the app vent.
+
+There are two graphing views in the webdlmon application -- a single field graph and a multi field graph. There are five fields that can be graphed (using the default template): amplitude (da), voltage (dv), temperature (dt), latency (dl), and clock quality (lcq).
+
+Use the "FieldDataFetchBehavior" event to implement your field fetching behavior. That event sends three arguments: id, field, and a callback to add data to the graph.
+
+```javascript
+vent.on('FieldDataFetchBehavior', function(id, field, addData) {
+  $.when($.getJSON('/rrd/' + id + '/' + field))
+    /**
+     * @param data
+     * [
+     *  [value1, timestamp1],
+     *  [value2, timestamp2],
+     *  [value3, timestamp3]
+     * ]
+     */
+    .then(function(data) {
+      addData({
+        name: field, 
+        data: data
+      });
+    });
+```
+
+To provide a data fetcher for the multi-graph view, do the smae as above, but instead, respond to the 'InfoDataFetchBehavior' event.
 
 If you would like to compile the javascript source files, you'll need to install requirejs globally on your system with NPM (part of node.js). This is only necessary if you want to optimize performance by getting rid of extra http requests.
 
