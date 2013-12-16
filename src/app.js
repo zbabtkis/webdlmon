@@ -25,7 +25,10 @@ function(Backbone, Collection, TableView, Modal, Menu, Router, Message, Overview
 	App.modalRegion.on('show', function(view) {
 		App.modalRegion.$el.modal('setting', {
 			onHide: function() {
-				App.modalRegion.close();
+				// Wait until modal is closed before removing view.
+				setTimeout(function() {
+					App.modalRegion.close();
+				}, 1000);
 			}
 		});
 		App.modalRegion.$el.modal('show');

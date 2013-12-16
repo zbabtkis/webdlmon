@@ -1,6 +1,6 @@
 ({
 	baseUrl: 'src/',
-	name: 'app',
+	name: 'main',
 	out: 'build/app.js',
 	paths: {
 		'jquery':     '../bower_components/jquery/jquery'

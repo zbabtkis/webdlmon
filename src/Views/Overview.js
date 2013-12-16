@@ -11,11 +11,7 @@ function(Backbone, $, OverviewTemplate, DataView, _config) {
 		itemView: DataView.extend({
 			className: 'ui overview piled segment',
 			template: OverviewTemplate
-		}),
-		
-		collectionEvents: {
-			'change sort': 'render',
-		}
+		})
 	});
 
 	return Overview;

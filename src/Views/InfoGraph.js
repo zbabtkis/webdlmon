@@ -23,7 +23,6 @@ function(Backbone, Info, GraphView) {
 			this.$el
 				.find('#all-graph')
 				.append(this.graph.render().$el);
-			console.log(this.title);
 		},
 
 		remove: function() {
