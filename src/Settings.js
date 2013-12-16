@@ -14,13 +14,13 @@ define(function() {
 	// How long to wait before giving up on the RRD (if it can't be accessed 
 	// at the time of request).
 	settings.RRD_TIMEOUT = 5000 // in miliseconds;
-	settings.RRD_ERROR   = "No data could be fetched from the RRD";
+	settings.RRD_ERR_MSG = "No data could be fetched from the RRD";
 	settings.ENOFILE     = "file not available";
 
 	
-	settings.RRD_OK_MSG  = "<i class='large thumbs up icon'></i>"
+	settings.SOCK_OK_MSG  = "<i class='large thumbs up icon'></i>"
 						 + "And we're back!"; 
-	settings.RRD_ERR_MSG = "<i class='large attention icon'></i>"
+	settings.SOCK_ERR_MSG = "<i class='large attention icon'></i>"
 						 + "This data is old because dlmon2json has stopped!"; 
 
 

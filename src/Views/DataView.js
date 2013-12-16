@@ -38,12 +38,24 @@ function (Backbone, $, _, config, Messages, Graph, InfoGraph, TemplateHelpers, T
 		},
 
 		graph: function(graph) {
-			return function addGraphBehavior (data) {
-				var today = new Date()
-				  , range = 86400000 * 7;
-				graph.chart.addSeries(data, false);
-				graph.chart.xAxis[0].setExtremes(today - range, today); 
-				graph.chart.hideLoading();
+			var _this = this;
+
+			return {
+				add: function addGraphBehavior (data) {
+					var today = new Date()
+					  , range = 86400000 * 7;
+					graph.chart.addSeries(data, false);
+					graph.chart.xAxis[0].setExtremes(today - range, today); 
+					graph.chart.hideLoading();
+				},
+
+				fail: function(msg) {
+					_this.vent.trigger('flash', {
+						message: msg, 
+						type: 'error'
+					});
+					_this.vent.trigger('hide:modal');
+				}
 			};
 		},
 

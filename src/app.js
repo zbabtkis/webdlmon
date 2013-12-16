@@ -15,23 +15,29 @@ define([
 function(Backbone, Collection, TableView, Modal, Menu, Router, Message, Overview, Controller, _config, AppData) {
 	var App    = new Backbone.Marionette.Application();
 
-	App.addRegions({
-		messageRegion: '#message-region',
-		dataRegion: '#region-data',
-		optionsRegion: '#region-options',
-		modalRegion: '#graph-modal'
-	});
-
-	App.modalRegion.on('show', function(view) {
-		App.modalRegion.$el.modal('setting', {
-			onHide: function() {
-				// Wait until modal is closed before removing view.
-				setTimeout(function() {
-					App.modalRegion.close();
-				}, 1000);
-			}
+	App.addInitializer(function() {
+		App.addRegions({
+			messageRegion: '#message-region',
+			dataRegion: '#region-data',
+			optionsRegion: '#region-options',
+			modalRegion: '#graph-modal'
 		});
-		App.modalRegion.$el.modal('show');
+
+		App.modalRegion.on('close', function() {
+			var _this = this;
+
+			setTimeout(function() {
+				if(_this.$el.modal('is active')) {
+					_this.$el.modal('hide');
+				} else {
+					_this.trigger('close');
+				}
+			}, 200);
+		});
+
+		App.modalRegion.on('show', function(view) {
+			App.modalRegion.$el.modal('show');
+		});
 	});
 
 	// App Data Handlers require vent to communicate with app.
@@ -92,7 +98,6 @@ function(Backbone, Collection, TableView, Modal, Menu, Router, Message, Overview
 	 * For displaying app content
 	 */
 	App.addInitializer(function() {
-		var modal = new Modal();
 		App.vent.on({
 			'display:overview': function(collection) {
 				App.dataRegion.show(new Overview({collection: collection}));
@@ -105,17 +110,9 @@ function(Backbone, Collection, TableView, Modal, Menu, Router, Message, Overview
 			'display:modal': function(view) {
 				App.modalRegion.show(view);
 			},
-
-			'display:spinner': function(target) {
-				// modal.spin(target);
-			},
-
-			'display:modal:inject': function(data) {
-				// modal.$el.find(data.selector).html(data.content);
-			},
-
-			'hide:spinner': function() {
-				// modal.stopSpin();
+			
+			'hide:modal': function() {
+				App.modalRegion.close();
 			}
 		});
 	});
