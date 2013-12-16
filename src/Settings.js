@@ -23,9 +23,58 @@ define(function() {
 	settings.SOCK_ERR_MSG = "<i class='large attention icon'></i>"
 						 + "This data is old because dlmon2json has stopped!"; 
 
+	settings.CHART_STEP  = "left";
 
-	settings.GRAPH_START = new Date().getTime() - 84000 * 7;
-	settings.GRAPH_END   = new Date().getTime();
+	settings.CHART_OPTIONS = {
+		legend: {
+			enabled: true,
+		},
+
+		animation: false,
+
+		navigator: {
+			enabled: false
+		},
+		
+		plotOptions: {
+			line: {
+				step: 'left' 
+			},
+		},
+
+		rangeSelector: {
+			buttons: [{
+				type: 'day',
+				count: 1,
+				text: '1d'
+			}, {
+				type: 'week',
+				count: 1,
+				text: '1w'
+			}, {
+				type: 'month',
+				count: 1,
+				text: '1m'
+			}, {
+				type: 'month',
+				count: 3,
+				text: '3m'
+			}, {
+				type: 'month',
+				count: 6,
+				text: '6m'
+			}, {
+				type: 'year',
+				count: 1,
+				text: '1y'
+			}, {
+				type: 'all',
+				text: 'All'
+			}],
+			selected: 1
+		}
+
+	};
 
 	/**
 	 * Preferences for ranges of acceptable data logger behavior

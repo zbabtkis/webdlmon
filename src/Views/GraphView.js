@@ -2,66 +2,17 @@
  * Displays highstock graph of RRD data
  */
 
-define(['backbone', 'jquery', 'Views/Messages', 'underscore', 'highcharts', 'semantic'],
+define(['backbone', 'highcharts', 'Settings'],
 
-function(Backbone, $, Message, _, Highstock) {
+function(Backbone, Highstock, config) {
 	var GraphView = Backbone.View.extend({
-		settings: function() {
-			return {
-				legend: {
-					enabled: true,
-				},
-
-				animation: false,
-
-				navigator: {
-					enabled: false
-				},
-
-				rangeSelector: {
-					buttons: [{
-						type: 'day',
-						count: 1,
-						text: '1d'
-					}, {
-						type: 'week',
-						count: 1,
-						text: '1w'
-					}, {
-						type: 'month',
-						count: 1,
-						text: '1m'
-					}, {
-						type: 'month',
-						count: 3,
-						text: '3m'
-					}, {
-						type: 'month',
-						count: 6,
-						text: '6m'
-					}, {
-						type: 'year',
-						count: 1,
-						text: '1y'
-					}, {
-						type: 'all',
-						text: 'All'
-					}],
-					selected: 1
-				},
-
-				title: {
-					text: this.model.get('title')
-				},
-
-				chart: {
-					renderTo: this.el
-				}
-			};
-		},
-
 		render: function() {
-			this.chart = Highstock.StockChart(this.settings());
+			settings = config.CHART_OPTIONS;
+
+			settings.title = { text: this.model.get('title') };
+			settings.chart = { renderTo: this.el };
+
+			this.chart = Highstock.StockChart(settings);
 
 			return this;
 		},
