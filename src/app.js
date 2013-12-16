@@ -22,21 +22,23 @@ function(Backbone, Collection, TableView, Modal, Menu, Router, Message, Overview
 			optionsRegion: '#region-options',
 			modalRegion: '#graph-modal'
 		});
-
-		App.modalRegion.on('close', function() {
+		
+		App.modalRegion.once('open', function() {
 			var _this = this;
 
-			setTimeout(function() {
-				if(_this.$el.modal('is active')) {
-					_this.$el.modal('hide');
-				} else {
-					_this.trigger('close');
+			this.$el.modal('settings', {
+				onHide: function() {
+					_this.close();
 				}
-			}, 200);
+			});
+		});
+
+		App.modalRegion.on('close', function() {
+			this.$el.modal('hide');
 		});
 
 		App.modalRegion.on('show', function(view) {
-			App.modalRegion.$el.modal('show');
+			this.$el.modal('show');
 		});
 	});
 

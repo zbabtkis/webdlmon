@@ -37,7 +37,9 @@ define(['backbone', 'underscore', 'Settings', 'io'], function(Backbone, _, confi
 					graph.add({name: data.field.field, data: data.data});
 				})
 				.fail(function() {
-					graph.fail(config.RRD_ERR_MSG);
+					setTimeout(function() {
+						graph.fail(config.RRD_ERR_MSG);
+					}, 500);
 				});
 		});
 
