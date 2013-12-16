@@ -14,7 +14,7 @@ To hook your data up to the webdlmon front end, you can use the application even
 Adding data to the data logger collection can be accomplished by triggering a "data" event on the app vent along with a single or set of data logger JSON objects. For example, loading data via AJAX would look something like this:
 
 ```javascript
-$.when($.getJSON('myData.json'))
+$.getJSON('myData.json')
   /**
    * @param data [
    *    {
@@ -40,7 +40,7 @@ $.when($.getJSON('myData.json'))
    *  }
    *  
    */
-  .then(function(data) {
+  .done(function(data) {
     vent.trigger('data', data);
   });
 ```
@@ -53,7 +53,7 @@ Use the "FieldDataFetchBehavior" event to implement your field fetching behavior
 
 ```javascript
 vent.on('FieldDataFetchBehavior', function(id, field, addData) {
-  $.when($.getJSON('/rrd/' + id + '/' + field))
+  $.getJSON('/rrd/' + id + '/' + field)
     /**
      * @param data
      * [
@@ -62,7 +62,7 @@ vent.on('FieldDataFetchBehavior', function(id, field, addData) {
      *  [value3, timestamp3]
      * ]
      */
-    .then(function(data) {
+    .done(function(data) {
       addData({
         name: field, 
         data: data
