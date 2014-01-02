@@ -1,17 +1,17 @@
 <article class='ui three column celled grid'>
 	<div class='row'>
 		<section class='column'>
-			<div data-content='Digitizer temperature' data-field='dt' class='ui <%= getColor("dt") %> inverted segment'>
+			<div data-content='Digitizer temperature' data-field='dt' class='ui <%= ok ? getColor("dt") : "red" %> inverted segment'>
 				<%= getTemp() %>
 			</div>
 		</section>
 		<section class='column'>
-			<div data-content='Digitizer voltage' data-field='dv' class='ui <%= getColor("dv") %> inverted segment'>
+			<div data-content='Digitizer voltage' data-field='dv' class='ui <%= ok ? getColor("dv") : "red" %> inverted segment'>
 				<%= getVolt() %>
 			</div>
 		</section>
 		<section class='column'>
-			<div data-content='Digitizer current' data-field='da' class='ui <%= getColor("da") %> inverted segment'>
+			<div data-content='Digitizer current' data-field='da' class='ui <%= ok ? getColor("da") : "red" %> inverted segment'>
 				<%= getAmp() %>
 			</div>
 		</section>
@@ -25,12 +25,12 @@
 	</div>
 	<div class='row'>
 		<section class='column'>
-			<div data-content='Data latency' data-field='dlt' class='ui <%= getColor("dlt") %> inverted segment'>
+			<div data-content='Data latency' data-field='dlt' class='ui <%= ok ? getColor("dlt") : "red" %> inverted segment'>
 				<%= seconds(dlt) %>
 			</div>
 		</section>
 		<section class='column'>
-			<div data-content='Clock quality' data-field='lcq' class='ui <%= getColor("lcq") %> inverted segment'>
+			<div data-content='Clock quality' data-field='lcq' class='ui <%= ok ? getColor("lcq") : "red" %> inverted segment'>
 				<%= percent(lcq) %>
 			</div>
 		</section>
